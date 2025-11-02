@@ -2,9 +2,9 @@ name: CI
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build-test:
@@ -34,9 +34,9 @@ jobs:
           node-version: 20
 
       - name: Install deps
-        run: npm install
+        run: npm ci
 
-      - name: Run tests
+      - name: Run tests + coverage
         run: npm run test:cov
 
       - name: Upload coverage report
