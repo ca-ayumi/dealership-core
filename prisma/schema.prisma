@@ -1,0 +1,26 @@
+datasource db {
+ provider = "postgresql"
+ url      = env("DATABASE_URL")
+}
+
+generator client {
+ provider = "prisma-client-js"
+}
+
+enum VehicleStatus {
+ AVAILABLE
+ RESERVED
+ SOLD
+}
+
+model Vehicle {
+ id          String        @id @default(uuid())
+ brand       String
+ model       String
+ year        Int
+ color       String
+ price       Decimal       @db.Decimal(10,2)
+ status      VehicleStatus @default(AVAILABLE)
+ createdAt   DateTime      @default(now())
+ updatedAt   DateTime      @updatedAt
+}

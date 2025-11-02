@@ -1,0 +1,29 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    container_name: dealership_core_api
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db_core:5432/dealership_core
+      VEHICLE_SALES_URL: http://vehicle_sales:3000
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db_core
+
+  db_core:
+    image: postgres:16
+    container_name: dealership_core_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dealership_core
+    ports:
+      - "5435:5432"
+    volumes:
+      - pgdata_core:/var/lib/postgresql/data
+
+volumes:
+  pgdata_core:
