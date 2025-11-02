@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dealership-core
+  labels:
+    app: dealership-core
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dealership-core
+  template:
+    metadata:
+      labels:
+        app: dealership-core
+    spec:
+      containers:
+        - name: dealership-core
+          image: ghcr.io/ca-ayumi/dealership-core:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3002
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: dealership-core-secrets
+                  key: DATABASE_URL
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "300m"
+              memory: "512Mi"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dealership-core-secrets
+type: Opaque
+stringData:
+  DATABASE_URL: "postgres://user:pass@postgres-core:5432/coredb"
