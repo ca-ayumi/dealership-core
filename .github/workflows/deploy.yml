@@ -24,7 +24,7 @@ jobs:
 
       - name: Push image
         run: docker push ghcr.io/ca-ayumi/dealership-core:latest
-#
+
       - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.0
         with:
